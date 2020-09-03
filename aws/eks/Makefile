@@ -4,10 +4,13 @@ eks: tf
 tf:
 	terraform init
 
-hcp:
-	terraform apply -var 'setup_hcp=true'
+consul-config:
+	@echo ${CONSUL_HTTP_TOKEN} > secrets/token
+	cat secrets/client_config.json | jq -j -r .encrypt > secrets/gossipEncryption
+	cat secrets/client_config.json | jq -r -j '.retry_join[0]' > ./terraform.tfvars
 
 k8s-secrets:
+	aws eks --region ${AWS_REGION} update-kubeconfig --name k8s-to-hcp-consul
 	kubectl create secret generic hcp-consul --from-file='caCert=./secrets/ca.pem' --from-file='gossipEncryptionKey=./secrets/gossipEncryption'
 	kubectl create secret generic hcp-consul-bootstrap-token --from-file='token=./secrets/token'
 	kubectl create secret generic consul-client-acl-token --from-file='token=./secrets/token'

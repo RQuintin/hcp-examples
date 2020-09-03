@@ -1,0 +1,4 @@
+kubeconfig_*
+secrets/
+values.yml
+terraform.tfvars

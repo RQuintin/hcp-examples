@@ -5,12 +5,7 @@ terraform {
       version = "3.4.0"
     }
   }
-  backend "remote" {
-    organization = "hashicorp-team-da-beta"
-    workspaces {
-      name = "hcp-consul-feedback"
-    }
-  }
+  backend "remote" {}
 }
 
 provider "aws" {

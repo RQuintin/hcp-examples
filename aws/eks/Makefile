@@ -6,8 +6,9 @@ tf:
 
 consul-config:
 	@echo ${CONSUL_HTTP_TOKEN} > secrets/token
-	cat secrets/client_config.json | jq -j -r .encrypt > secrets/gossipEncryption
-	cat secrets/client_config.json | jq -r -j '.retry_join[0]' > ./terraform.tfvars
+	@cat secrets/client_config.json | jq -j -r .encrypt > secrets/gossipEncryption
+	@$(eval CONSUL_HOST := $(shell cat secrets/client_config.json | jq -r -j '.retry_join[0]'))
+	@echo 'hcp_consul_host = "$(CONSUL_HOST)"' > ./terraform.tfvars
 
 k8s-secrets:
 	aws eks --region ${AWS_REGION} update-kubeconfig --name k8s-to-hcp-consul

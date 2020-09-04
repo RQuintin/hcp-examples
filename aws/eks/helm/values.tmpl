@@ -24,6 +24,7 @@ externalServers:
   k8sAuthMethodHost: ${cluster_endpoint}:443
 client:
   enabled: true
+  exposeGossipPorts: true
   join: ['${consul_host}']
 connectInject:
   enabled: true

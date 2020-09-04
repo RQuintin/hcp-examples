@@ -5,7 +5,7 @@ tf:
 	terraform init
 
 consul-config:
-	@echo ${CONSUL_HTTP_TOKEN} > secrets/token
+	@printf "${CONSUL_HTTP_TOKEN}" > secrets/token
 	@cat secrets/client_config.json | jq -j -r .encrypt > secrets/gossipEncryption
 	@$(eval CONSUL_HOST := $(shell cat secrets/client_config.json | jq -r -j '.retry_join[0]'))
 	@echo 'hcp_consul_host = "$(CONSUL_HOST)"' > ./terraform.tfvars

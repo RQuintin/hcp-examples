@@ -3,7 +3,7 @@ variable "name" {
 }
 
 variable "region" {
-  default = "us-east-1"
+  default = "us-west-2"
 }
 
 variable "hcp_consul_cidr_block" {
@@ -14,4 +14,16 @@ variable "hcp_consul_host" {}
 
 variable "peering_connection_has_been_added_to_hvn" {
   default = true
+}
+
+variable "tags" {
+  default = {
+    Environment = "hcp-consul-example"
+  }
+}
+
+variable "additional_tags" {
+  default = {
+    ExtraTag = "hcp_consul"
+  }
 }

@@ -4,6 +4,10 @@ terraform {
     aws = {
       version = "3.4.0"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "1.13.1"
+    }
   }
   backend "remote" {}
 }

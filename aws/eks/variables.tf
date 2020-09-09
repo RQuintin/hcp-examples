@@ -13,7 +13,7 @@ variable "hcp_consul_cidr_block" {
 variable "hcp_consul_host" {}
 
 variable "peering_connection_has_been_added_to_hvn" {
-  default = true
+  default = false
 }
 
 variable "tags" {

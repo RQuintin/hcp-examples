@@ -5,7 +5,7 @@ terraform {
       version = "3.4.0"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "1.13.1"
     }
   }

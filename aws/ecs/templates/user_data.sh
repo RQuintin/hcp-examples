@@ -1,3 +1,7 @@
-  #!/bin/bash
-  echo "ECS_CLUSTER=${cluster_name}" >> /etc/ecs/ecs.config
-  echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" >> /etc/ecs/ecs.config
+#!/bin/bash
+
+cat <<'EOF' >> /etc/ecs/ecs.config
+ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true
+ECS_ENABLE_TASK_ENI=true
+ECS_CLUSTER=${cluster_name}
+EOF

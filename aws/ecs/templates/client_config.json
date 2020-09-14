@@ -1,0 +1,23 @@
+{
+  "acl": {
+    "enabled": true,
+    "down_policy": "extend-cache",
+    "default_policy": "deny",
+    "tokens": {
+      "agent": "${client_acl_token}"
+    }
+  },
+  "ca_file": "/tmp/ca.pem",
+  "verify_outgoing": true,
+  "datacenter": "${datacenter}",
+  "encrypt": "${gossip_encrypt}",
+  "server": false,
+  "log_level": "INFO",
+  "ui": true,
+  "retry_join": [
+    "${host}"
+  ],
+  "auto_encrypt": {
+    "tls": true
+  }
+}

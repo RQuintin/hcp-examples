@@ -3,7 +3,7 @@ data "aws_kms_key" "secrets_manager" {
 }
 
 resource "aws_iam_policy" "ecs_secrets" {
-  name        = "${var.name}-ecs-secrets"
+  name        = "${var.name}-ecs-secrets-policy"
   path        = "/ecs/"
   description = "Permissions for secrets"
 
@@ -27,42 +27,28 @@ resource "aws_iam_policy" "ecs_secrets" {
 EOF
 }
 
-resource "aws_iam_role" "ecs" {
-  name = var.name
+resource "aws_iam_role" "ecs_task" {
+  name = "${var.name}-ecs-task-execution-role"
   path = "/ecs/"
 
   assume_role_policy = <<EOF
 {
-  "Version": "2008-10-17",
+  "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
+      "Sid": "",
+      "Effect": "Allow",
       "Principal": {
-        "Service": ["ec2.amazonaws.com"]
+        "Service": "ecs-tasks.amazonaws.com"
       },
-      "Effect": "Allow"
+      "Action": "sts:AssumeRole"
     }
   ]
 }
 EOF
 }
 
-resource "aws_iam_instance_profile" "ecs" {
-  name = var.name
-  role = aws_iam_role.ecs.name
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_ec2_role" {
-  role       = aws_iam_role.ecs.id
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_ec2_cloudwatch_role" {
-  role       = aws_iam_role.ecs.id
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-}
-
 resource "aws_iam_role_policy_attachment" "ecs_secrets" {
-  role       = aws_iam_role.ecs.id
+  role       = aws_iam_role.ecs_task.id
   policy_arn = aws_iam_policy.ecs_secrets.arn
 }

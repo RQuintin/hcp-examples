@@ -12,6 +12,10 @@ variable "hcp_consul_cidr_block" {
 
 variable "hcp_consul_host" {}
 
+variable "hcp_consul_gossip_encrypt" {}
+
+variable "hcp_consul_datacenter" {}
+
 variable "peering_connection_has_been_added_to_hvn" {
   default = false
 }

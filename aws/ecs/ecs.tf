@@ -16,7 +16,7 @@ data "aws_ami" "amazon_linux_ecs" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-*-amazon-ecs-optimized"]
+    values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
   }
 
   filter {
@@ -44,11 +44,12 @@ module "asg" {
 
   # Auto scaling group
   asg_name                  = var.name
+  key_name                  = "rosemary"
   vpc_zone_identifier       = module.vpc.private_subnets
   health_check_type         = "EC2"
-  min_size                  = 3
-  max_size                  = 5
-  desired_capacity          = 3
+  min_size                  = 1
+  max_size                  = 3
+  desired_capacity          = 1
   wait_for_capacity_timeout = 0
 
   tags = [

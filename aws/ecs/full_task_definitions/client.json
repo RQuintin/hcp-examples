@@ -47,7 +47,7 @@
       "command": [
         "sh",
         "-c",
-        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; docker-entrypoint.sh agent"
+        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; docker-entrypoint.sh agent -client=0.0.0.0 -node=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname)"
       ],
       "cpu": 10,
       "environment": [

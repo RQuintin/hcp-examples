@@ -88,14 +88,9 @@
     }
   ],
   "taskRoleArn": "arn:aws:iam::${AWS_ACCOUNT}:role/ecs/ecs-to-hcp-consul-ecs-task-execution-role",
-  "family": "consul",
+  "family": "consul-client",
   "requiresCompatibilities": [
     "EC2"
-  ],
-  "placementConstraints": [
-    {
-      "type": "distinctInstance"
-    }
   ],
   "networkMode": "awsvpc"
 }

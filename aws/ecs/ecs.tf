@@ -44,7 +44,6 @@ module "asg" {
 
   # Auto scaling group
   asg_name                  = var.name
-  key_name                  = "rosemary"
   vpc_zone_identifier       = module.vpc.private_subnets
   health_check_type         = "EC2"
   min_size                  = 1

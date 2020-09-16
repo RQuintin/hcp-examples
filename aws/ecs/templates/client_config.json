@@ -7,7 +7,6 @@
       "agent": "${client_acl_token}"
     }
   },
-  "ca_file": "/tmp/ca.pem",
   "verify_outgoing": true,
   "datacenter": "${datacenter}",
   "encrypt": "${gossip_encrypt}",
@@ -19,5 +18,13 @@
   ],
   "auto_encrypt": {
     "tls": true
-  }
+  },
+  "leave_on_terminate": true,
+  "ca_file": "${ca_pem_file_path}",
+  "ports": {
+    "https": 8501,
+    "http": -1,
+    "grpc": 8502
+  },
+  "domain": "consul"
 }

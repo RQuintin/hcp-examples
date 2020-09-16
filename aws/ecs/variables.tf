@@ -1,5 +1,5 @@
 variable "name" {
-  default = "k8s-to-hcp-consul"
+  default = "ecs-to-hcp-consul"
 }
 
 variable "region" {
@@ -15,6 +15,10 @@ variable "hcp_consul_host" {}
 variable "hcp_consul_gossip_encrypt" {}
 
 variable "hcp_consul_datacenter" {}
+
+variable "hcp_consul_client_acl_token" {}
+
+variable "hcp_consul_ca_pem_file_path" {}
 
 variable "peering_connection_has_been_added_to_hvn" {
   default = false

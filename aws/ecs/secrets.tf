@@ -2,8 +2,13 @@ locals {
   ca_pem_file_path = "/tmp/ca.pem"
 }
 
+resource "random_string" "secret_name" {
+  length  = 8
+  special = false
+}
+
 resource "aws_secretsmanager_secret" "hcp_consul" {
-  name = var.name
+  name = "${var.name}-${random_string.secret_name.result}"
   tags = var.tags
 }
 

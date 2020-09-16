@@ -28,8 +28,8 @@
         "protocol": "udp"
       },
       {
-        "containerPort": 8500,
-        "hostPort": 8500
+        "containerPort": 8501,
+        "hostPort": 8501
       },
       {
         "containerPort": 8502,

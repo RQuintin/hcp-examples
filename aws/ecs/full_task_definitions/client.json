@@ -1,0 +1,101 @@
+{
+  "executionRoleArn": "arn:aws:iam::${AWS_ACCOUNT}:role/ecs/ecs-to-hcp-consul-ecs-task-execution-role",
+  "containerDefinitions": [
+    {
+      "portMappings": [
+        {
+          "hostPort": 8301,
+          "protocol": "tcp",
+          "containerPort": 8301
+        },
+        {
+          "hostPort": 8301,
+          "protocol": "udp",
+          "containerPort": 8301
+        },
+        {
+          "hostPort": 8302,
+          "protocol": "tcp",
+          "containerPort": 8302
+        },
+        {
+          "hostPort": 8300,
+          "protocol": "tcp",
+          "containerPort": 8300
+        },
+        {
+          "hostPort": 8600,
+          "protocol": "tcp",
+          "containerPort": 8600
+        },
+        {
+          "hostPort": 8600,
+          "protocol": "udp",
+          "containerPort": 8600
+        },
+        {
+          "hostPort": 8501,
+          "protocol": "tcp",
+          "containerPort": 8501
+        },
+        {
+          "hostPort": 8502,
+          "protocol": "tcp",
+          "containerPort": 8502
+        }
+      ],
+      "command": [
+        "sh",
+        "-c",
+        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; docker-entrypoint.sh agent"
+      ],
+      "cpu": 10,
+      "environment": [
+        {
+          "name": "CONSUL_BIND_INTERFACE",
+          "value": "eth0"
+        },
+        {
+          "name": "CONSUL_CLIENT_INTERFACE",
+          "value": "lo"
+        },
+        {
+          "name": "CONSUL_HTTP_ADDR",
+          "value": "https://localhost:8501"
+        },
+        {
+          "name": "CONSUL_HTTP_SSL_VERIFY",
+          "value": "false"
+        }
+      ],
+      "secrets": [
+        {
+          "valueFrom": "${CONSUL_SECRET_ARN}:token::",
+          "name": "CONSUL_HTTP_TOKEN"
+        },
+        {
+          "valueFrom": "${CONSUL_SECRET_ARN}:certificate::",
+          "name": "CONSUL_CERTIFICATE"
+        },
+        {
+          "valueFrom": "${CONSUL_SECRET_ARN}:client_config::",
+          "name": "CONSUL_CONFIG"
+        }
+      ],
+      "memory": 100,
+      "image": "consul:1.8.3",
+      "name": "consul-client"
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::${AWS_ACCOUNT}:role/ecs/ecs-to-hcp-consul-ecs-task-execution-role",
+  "family": "consul",
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "placementConstraints": [
+    {
+      "type": "distinctInstance"
+    }
+  ],
+  "networkMode": "awsvpc"
+}

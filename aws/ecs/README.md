@@ -17,7 +17,9 @@ and connect them to HCP Consul with HashiCorp Terraform. The configuration will 
 - ECS Cluster
 - ECS Task Definition for Consul clients
 - Secrets in AWS Secrets Manager
-- IAM Roles and Policies for ECS task execution 
+- IAM Roles and Policies for ECS task execution
+- Peering 
+- Security Group Rules for HCP Consul
 
 ## Challenge
 

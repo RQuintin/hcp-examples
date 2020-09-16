@@ -1,7 +1,7 @@
 {
   "acl": {
     "enabled": true,
-    "down_policy": "extend-cache",
+    "down_policy": "async-cache",
     "default_policy": "deny",
     "tokens": {
       "agent": "${client_acl_token}"

@@ -6,6 +6,10 @@ variable "region" {
   default = "us-west-2"
 }
 
+variable "ecs_cluster_size" {
+  default = 3
+}
+
 variable "hcp_consul_cidr_block" {
   default = "172.25.16.0/20"
 }

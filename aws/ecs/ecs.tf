@@ -38,17 +38,18 @@ module "asg" {
   instance_type        = "t2.micro"
   security_groups      = [aws_security_group.ecs.id]
   iam_instance_profile = module.ec2-profile.this_iam_instance_profile_id
+  key_name             = "rosemary"
   user_data = templatefile("./templates/user_data.sh", {
     cluster_name = var.name
   })
 
   # Auto scaling group
   asg_name                  = var.name
-  vpc_zone_identifier       = module.vpc.private_subnets
+  vpc_zone_identifier       = module.vpc.public_subnets
   health_check_type         = "EC2"
-  min_size                  = 1
-  max_size                  = 3
-  desired_capacity          = 3
+  min_size                  = 0
+  max_size                  = var.ecs_cluster_size
+  desired_capacity          = var.ecs_cluster_size
   wait_for_capacity_timeout = 0
 
   tags = [

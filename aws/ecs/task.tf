@@ -11,10 +11,10 @@ resource "aws_ecs_task_definition" "consul" {
 }
 
 resource "aws_ecs_service" "consul" {
-  name            = "consul-client"
-  cluster         = module.ecs.this_ecs_cluster_arn
-  task_definition = aws_ecs_task_definition.consul.arn
-  desired_count   = var.ecs_cluster_size
+  name                = "consul-client"
+  cluster             = module.ecs.this_ecs_cluster_arn
+  task_definition     = aws_ecs_task_definition.consul.arn
+  scheduling_strategy = "DAEMON"
 
   placement_constraints {
     type = "distinctInstance"

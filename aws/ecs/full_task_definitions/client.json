@@ -47,18 +47,10 @@
       "command": [
         "sh",
         "-c",
-        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; docker-entrypoint.sh agent -client=0.0.0.0 -node=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname)"
+        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; consul agent -bind=0.0.0.0 -client=0.0.0.0 -advertise=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4) -node=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname) -data-dir=/consul/data -config-dir=/consul/config"
       ],
       "cpu": 10,
       "environment": [
-        {
-          "name": "CONSUL_BIND_INTERFACE",
-          "value": "eth0"
-        },
-        {
-          "name": "CONSUL_CLIENT_INTERFACE",
-          "value": "lo"
-        },
         {
           "name": "CONSUL_HTTP_ADDR",
           "value": "https://localhost:8501"
@@ -92,5 +84,5 @@
   "requiresCompatibilities": [
     "EC2"
   ],
-  "networkMode": "awsvpc"
+  "networkMode": "host"
 }

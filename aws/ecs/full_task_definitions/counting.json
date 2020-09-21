@@ -1,0 +1,63 @@
+{
+  "executionRoleArn": "arn:aws:iam::938765688536:role/ecs/ecs-to-hcp-consul-ecs-task-execution-role",
+  "containerDefinitions": [
+    {
+      "name": "counting",
+      "image": "hashicorp/counting-service:0.0.2",
+      "portMappings": [
+        {
+          "containerPort": 9001
+        }
+      ],
+      "cpu": 10,
+      "memory": 300,
+      "dependsOn": [
+        {
+          "containerName": "consul-envoy",
+          "condition": "HEALTHY"
+        }
+      ]
+    },
+    {
+      "name": "consul-envoy",
+      "image": "nicholasjackson/consul-envoy",
+      "cpu": 10,
+      "memory": 100,
+      "essential": true,
+      "networkMode": "awsvpc",
+      "portMappings": [
+        {
+          "containerPort": 21000,
+          "hostPort": 21000
+        }
+      ],
+      "environment": [
+        {
+          "name": "CONSUL_HTTP_SSL",
+          "value": "true"
+        },
+        {
+          "name": "SERVICE_CONFIG",
+          "value": "/tmp/counting.hcl"
+        }
+      ],
+      "secrets": [
+        {
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:938765688536:secret:counting-pZWqqc",
+          "name": "HCL"
+        }
+      ],
+      "command": [
+        "sh",
+        "-c",
+        "echo $HCL > /tmp/counting.hcl; consul connect envoy -sidecar-for counting -grpc-addr $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):8502 -http-addr $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):8501"
+      ]
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::938765688536:role/ecs/ecs-to-hcp-consul-ecs-task-execution-role",
+  "family": "counting",
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": "awsvpc"
+}

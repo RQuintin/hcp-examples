@@ -13,11 +13,14 @@
   "server": false,
   "log_level": "INFO",
   "ui": true,
+  "advertise_addr": "0.0.0.0",
+  "node_name": "0.0.0.0",
   "retry_join": [
     "${host}"
   ],
   "auto_encrypt": {
-    "tls": true
+    "tls": true,
+    "ip_san": []
   },
   "leave_on_terminate": true,
   "ca_file": "${ca_pem_file_path}",

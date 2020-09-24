@@ -44,7 +44,8 @@ module "asg" {
 
   # Auto scaling group
   asg_name                  = var.name
-  vpc_zone_identifier       = module.vpc.private_subnets
+  key_name                  = var.key_name
+  vpc_zone_identifier       = var.enable_public_instances ? module.vpc.public_subnets : module.vpc.private_subnets
   health_check_type         = "EC2"
   min_size                  = 0
   max_size                  = var.ecs_cluster_size

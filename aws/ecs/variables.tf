@@ -14,6 +14,14 @@ variable "hcp_consul_cidr_block" {
   default = "172.25.16.0/20"
 }
 
+variable "key_name" {
+  default = ""
+}
+
+variable "enable_public_instances" {
+  default = false
+}
+
 variable "hcp_consul_host" {}
 
 variable "hcp_consul_gossip_encrypt" {}

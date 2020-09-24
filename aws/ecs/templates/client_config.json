@@ -8,6 +8,9 @@
     }
   },
   "verify_outgoing": true,
+  "verify_server_hostname": true,
+  "verify_incoming": false,
+  "verify_incoming_https": false,
   "datacenter": "${datacenter}",
   "encrypt": "${gossip_encrypt}",
   "server": false,

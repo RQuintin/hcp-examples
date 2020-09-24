@@ -8,6 +8,7 @@ resource "aws_ecs_task_definition" "consul" {
   task_role_arn            = aws_iam_role.ecs_task.arn
   execution_role_arn       = aws_iam_role.ecs_task.arn
   network_mode             = "host"
+  tags                     = {}
 }
 
 resource "aws_ecs_service" "consul" {

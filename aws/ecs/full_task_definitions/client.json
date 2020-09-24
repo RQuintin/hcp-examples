@@ -45,12 +45,19 @@
         }
       ],
       "command": [
-        "sh",
-        "-c",
-        "mkdir -p /consul/config; echo $CONSUL_CERTIFICATE | base64 -d > /tmp/ca.pem; echo $CONSUL_CONFIG | base64 -d > /consul/config/client_config.json; consul agent -bind=0.0.0.0 -client=0.0.0.0 -advertise=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4) -node=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname) -data-dir=/consul/data -config-dir=/consul/config"
+        "consul",
+        "agent",
+        "-bind=0.0.0.0",
+        "-client=0.0.0.0",
+        "-data-dir=/consul/data",
+        "-config-dir=/consul/config"
       ],
       "cpu": 10,
       "environment": [
+        {
+          "name": "CONSUL_CA_FILE_PATH",
+          "value": "/tmp/ca.pem"
+        },
         {
           "name": "CONSUL_HTTP_ADDR",
           "value": "https://localhost:8501"
@@ -60,6 +67,7 @@
           "value": "false"
         }
       ],
+      "mountPoints": [],
       "secrets": [
         {
           "valueFrom": "${CONSUL_SECRET_ARN}:token::",
@@ -71,11 +79,12 @@
         },
         {
           "valueFrom": "${CONSUL_SECRET_ARN}:client_config::",
-          "name": "CONSUL_CONFIG"
+          "name": "CONSUL_CLIENT_CONFIG"
         }
       ],
       "memory": 100,
-      "image": "consul:1.8.3",
+      "volumesFrom": [],
+      "image": "joatmon08/consul-ecs:v1.8.4-v1.14.4",
       "name": "consul-client"
     }
   ],
@@ -84,5 +93,6 @@
   "requiresCompatibilities": [
     "EC2"
   ],
-  "networkMode": "host"
+  "networkMode": "host",
+  "volumes": []
 }

@@ -17,7 +17,6 @@
   "log_level": "INFO",
   "ui": true,
   "advertise_addr": "0.0.0.0",
-  "node_name": "0.0.0.0",
   "retry_join": [
     "${host}"
   ],
